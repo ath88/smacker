@@ -19,7 +19,7 @@ describe("smacker", () => {
     });
   })
 
-  const terminationSignals = ["SIGTERM", "SIGINT"]
+  const terminationSignals = ["SIGTERM", "SIGINT", "SIGUSR2"]
 
   terminationSignals.forEach((signal) => {
     let attempt = 0;
