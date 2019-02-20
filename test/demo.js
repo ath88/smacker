@@ -1,7 +1,7 @@
 const smacker = require("../lib/smacker.js");
 let timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-const Application = function constructor() {
+const Service = function constructor() {
   const state = { };
 
   // provoke an uncaught exception
@@ -31,6 +31,6 @@ const Application = function constructor() {
   };
 }
 
-const application = new Application();
-smacker.start(application, { logJson: true })
+const service = new Service();
+smacker.start({ service })
 if (process.argv[2] === "stop") smacker.stop();
