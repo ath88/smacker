@@ -1,24 +1,24 @@
 const smacker = require("../lib/smacker.js");
+let timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const Application = function constructor() {
   const state = { };
 
-  let timeout = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-  // emit a warning
-  if (process.argv[3] === "warn") process.emitWarning("This is a test warning");
-
   // provoke an uncaught exception
-  if (process.argv[3] === "uncaughtException") throw new Error();
-
-  // provoke an unhandled promise rejection
-  if (process.argv[3] === "unhandledRejection") new Promise((res, rej) => rej());
-
-  // provoke a multiple resolves, only supported after Node.js 10.12.0
-  if (process.argv[3] === "multipleResolves") new Promise((res, rej) => [res(), res()]);
+  if (process.argv[3] === "uncaughtException") setTimeout(() => { throw new Error("uncaught exception") }, 100);
 
   return {
     start: async () => {
+
+      // emit a warning
+      if (process.argv[3] === "warn") process.emitWarning("This is a test warning");
+
+      // provoke an unhandled promise rejection
+      if (process.argv[3] === "unhandledRejection") new Promise((res, rej) => rej(new Error("unhandled rejection")));
+
+      // provoke a multiple resolves, only supported after Node.js 10.12.0
+      if (process.argv[3] === "multipleResolves") new Promise((res, rej) => [rej("resolve 1"), rej("resolve 2")]);
+
       console.log("Started, logging every 100 milliseconds");
       state.interval = setInterval(() => console.log(new Date()), 100);
     },
@@ -32,5 +32,5 @@ const Application = function constructor() {
 }
 
 const application = new Application();
-if (process.argv[2] === "stop") return;
-smacker.start(application)
+smacker.start(application, { logJson: true })
+if (process.argv[2] === "stop") smacker.stop();
