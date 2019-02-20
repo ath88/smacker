@@ -1,6 +1,6 @@
 {
   "name": "smacker",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Smack your service, so it behaves as you want",
   "main": "lib/smacker.js",
   "scripts": {
@@ -13,5 +13,7 @@
     "mocha": "^6.0.0",
     "semver": "^5.6.0"
   },
-  "files": [ "lib/smacker.js" ]
+  "files": [
+    "lib/smacker.js"
+  ]
 }
