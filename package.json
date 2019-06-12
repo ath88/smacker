@@ -1,6 +1,6 @@
 {
   "name": "smacker",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Smack your service, so it behaves as you want",
   "main": "lib/smacker.js",
   "scripts": {
