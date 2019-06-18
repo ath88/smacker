@@ -5,7 +5,7 @@ Don't smack your developers when a process misbehaves. It's hard to know everyth
 
 ## Did you know?
 - Packages you use can emit warnings on [`process.emitWarning`](https://nodejs.org/api/process.html#process_process_emitwarning_warning_type_code_ctor) for deprecation notices and unexpected usage, without affecting functionality.
-- Both [`SIGINT and SIGTERM`] will default to try to kill your process, without notifying you. This can be confusing when running your Node.js process in foreign environments.
+- Both [`SIGINT and SIGTERM`] will by default try to kill your process, without notifying you. This can be confusing when running your Node.js process in foreign environments.
 - Node.js v10.12.0 introduced a new event called [`multipleResolves`](https://nodejs.org/api/process.html#process_event_multipleresolves) - which they recommend should terminate your process, even though it doesn't default to that behaviour.
 
 **smacker gracefully handles all these nitty gritties, and fits perfectly into a microservice environment.**
