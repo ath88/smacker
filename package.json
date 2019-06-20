@@ -1,10 +1,16 @@
 {
   "name": "smacker",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Smack your service, so it behaves as you want",
-  "keywords": ["process", "signal", "warning", "uncaughtException", "uncaughtRejection"],
+  "keywords": [
+    "process",
+    "signal",
+    "warning",
+    "uncaughtException",
+    "uncaughtRejection"
+  ],
   "bug": {
-    "url" : "https://github.com/ath88/smacker/issues"
+    "url": "https://github.com/ath88/smacker/issues"
   },
   "license": "MIT",
   "repository": "github:ath88/smacker",
