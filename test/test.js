@@ -27,11 +27,11 @@ describe("smacker", () => {
       attempt++;
       this.retries(5); // timing on slow computers can make this test require more setup-time
 
-      const process = spawn("node", ["./test/demo.js", "run"]);
-      setTimeout(() => process.kill(signal), 50 * attempt); // wait for the process to setup signal handlers
+      const proc = spawn("node", ["./test/demo.js", "run"]);
+      setTimeout(() => proc.kill(signal), 50 * attempt); // wait for the process to setup signal handlers
 
       return new Promise((resolve, reject) => {
-        process.once("exit", (code, signal) => {
+        proc.once("exit", (code, signal) => {
           if (code === 0) resolve();
           reject();
         });
