@@ -3,7 +3,7 @@ const { spawnSync, spawn } = require("child_process");
 const semver = require("semver");
 
 describe("smacker", () => {
-  it("logs an emitted warning", async function () {
+  it("logs an emitted warning", function () {
     const result = spawnSync("node", ["./test/demo.js", "stop", "warn"]);
     assert(result.output[2].includes("warning"));
   });
@@ -11,7 +11,7 @@ describe("smacker", () => {
   const events = ["uncaughtException", "unhandledRejection", "multipleResolves"];
 
   events.forEach((event) => {
-    it(`logs and teminates on ${event}`, async function () {
+    it(`logs and teminates on ${event}`, function () {
       if (semver.lt(process.version, "v10.12.0") && event === "multipleResolves") this.skip("Only works on >= v10.12.0");
 
       const result = spawnSync("node", ["./test/demo.js", "stop", event]);
@@ -23,7 +23,7 @@ describe("smacker", () => {
 
   terminationSignals.forEach((signal) => {
     let attempt = 0;
-    it(`can stop gracefully on ${signal}`, async function () {
+    it(`can stop gracefully on ${signal}`, function () {
       attempt++;
       this.retries(5); // timing on slow computers can make this test require more setup-time
 
