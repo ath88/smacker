@@ -32,13 +32,35 @@ describe("smacker", () => {
 
       return new Promise((resolve, reject) => {
         proc.once("exit", (code, signal) => {
-          if (code === 0) resolve();
+          if (code === 0) return resolve();
           reject();
         });
       });
     });
   });
 
-  it("terminates forcefully after waiting for graceful shutdown");
+  let attempt = 0;
+  it("terminates forcefully after waiting for graceful shutdown", function() {
+    attempt++;
+    this.retries(5); // timing on slow computers can make this test require more setup-time
+
+    const proc = spawn("node", ["./test/demo.js", "run", "nonGracefulShutdown"]);
+
+    let stderr = "";
+    proc.stderr.on('data', (data) => {
+      stderr += data.toString();
+    });
+
+    setTimeout(() => proc.kill('SIGINT'), 50 * attempt); // wait for the process to setup signal handlers
+
+    return new Promise((resolve, reject) => {
+      proc.once("close", (code, signal) => {
+        if (!stderr.includes("Waited too long for shutdown.")) return reject();
+        if (code === 0) return reject();
+        resolve();
+      });
+    });
+  });
+
   it("executes custom function on SIGHUP");
 });

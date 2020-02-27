@@ -31,6 +31,10 @@ const Service = function constructor() {
   };
 }
 
+const config = {
+  gracefulShutdownTimeout: (process.argv[3] === "nonGracefulShutdown") ? 10 : null,
+};
+
 const service = new Service();
-smacker.start({ service })
+smacker.start({ service, config })
 if (process.argv[2] === "stop") smacker.stop();

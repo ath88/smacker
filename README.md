@@ -34,16 +34,16 @@ Unhandled exceptions and unhandled promise rejections are caught, logged, and yo
 
 It also ensures warnings from `process.emitWarning` are logged through your logging object.
 
-
 #### config
 
 - `logJson` `<Boolean>` determines whether smacker will try to serialize the object before giving it to your logging object. Can be set via the `LOGJSON` environment variable. Defaults to `false`.
 - `terminateOnMultipleResolves` `<Boolean>` smacker can terminate on the `multipleResolves` event. This is not always [desireable](https://github.com/nodejs/node/issues/24321). It defaults to `true`, since that is [recommended behaviour](https://nodejs.org/api/process.html#process_event_multipleresolves).
+- `gracefulShutdownTimeout` `<Number>` smacker will terminate after configured milliseconds (triggered by signals or natually), with exit code 1, if configured. Defaults to `undefined`.
+
 
 
 ## Planned features
 
 - hard shutdown if `service.start` doesn't resolve within a configurable amount of time
-- hard shutdown if `service.stop` doesn't resolve within a configurable amount of time
 - allow configuration `SIGUSR2` to be passed to the service for it to handle
-- detecting if `service.stop` actually leaves the event loop empty  
+- detecting if `service.stop` actually leaves the event loop empty
