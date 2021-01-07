@@ -21,8 +21,8 @@
   "author": "Asbjørn Dyhrberg Thegler <asbjoern@thegler.dk>",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "^6.1.4",
-    "semver": "^6.1.1"
+    "mocha": "^8.2.1",
+    "semver": "^7.3.4"
   },
   "files": [
     "lib/smacker.js"
