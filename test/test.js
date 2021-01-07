@@ -14,12 +14,12 @@ describe("smacker", () => {
     it(`logs and teminates on ${event}`, function () {
       if (semver.lt(process.version, "v10.12.0") && event === "multipleResolves") this.skip("Only works on >= v10.12.0");
 
-      const result = spawnSync("node", ["./test/demo.js", "stop", event]);
+      const result = spawnSync("node", ["./test/demo.js", "run", event]);
       assert(result.output[2].includes(event));
     });
   })
 
-  const terminationSignals = ["SIGTERM", "SIGINT", "SIGUSR2"]
+  const terminationSignals = ["SIGTERM", "SIGINT"]
 
   terminationSignals.forEach((signal) => {
     let attempt = 0;
@@ -73,7 +73,7 @@ describe("smacker", () => {
     setTimeout(() => proc.kill('SIGINT'), 500); // wait for it to terminate, in case it doesnt terminate by itself
 
     return new Promise((resolve, reject) => {
-      proc.once("close", (code, signal) => {
+      proc.once("close", (code) => {
         if (!stderr.includes("Waited too long for startup.")) return reject();
         if (code === 0) return reject();
         resolve();
@@ -81,5 +81,33 @@ describe("smacker", () => {
     });
   });
 
-  it("executes custom function on SIGHUP");
+  const signalHandlers = ["SIGHUP", "SIGUSR2", "SIGPIPE"]
+
+  signalHandlers.forEach((signal) => {
+    let attempt = 0;
+    it(`can have a custom ${signal} handler`, function() {
+      attempt++;
+      this.retries(5); // timing on slow computers can make this test require more setup-time
+
+      const proc = spawn("node", ["./test/demo.js", "run", signal]);
+
+      let stdout = "";
+      proc.stdout.on('data', (data) => {
+        stdout += data.toString();
+      });
+
+      setTimeout(() => {
+        proc.kill(signal)
+        proc.kill('SIGINT')
+      }, 50 * attempt); // wait for the process to setup signal handlers
+
+      return new Promise((resolve, reject) => {
+        proc.once("close", (code) => {
+          if (!stdout.includes(`${signal} signal received.`)) return reject();
+          if (code === 1) return reject();
+          resolve();
+        });
+      });
+    });
+  });
 });

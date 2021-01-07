@@ -28,7 +28,7 @@ Check out the demo in `test/demo.js`.
 - `config` `<Object>` configuration object, contains config for smacker - see below
 - `log` `<Object>` logging object for smacker to use, defaults to `console`. Should have `info`, `warn`, and `fatal`.
 
-*smacker* will call `service.start` on `smacker.start`, and expect the resulting promise to resolve. It installs handlers for `SIGINT and SIGTERM` and `SIGUSR2` and calls `service.stop` when it receives one of these signals.
+*smacker* will call `service.start` on `smacker.start`, and expect the resulting promise to resolve. It installs handlers for `SIGINT`, `SIGTERM` and `SIGUSR2` and calls `service.stop` when it receives one of these signals.
 
 Unhandled exceptions and unhandled promise rejections are caught, logged, and your process will be terminated with exit code 1.
 
@@ -40,9 +40,7 @@ It also ensures warnings from `process.emitWarning` are logged through your logg
 - `terminateOnMultipleResolves` `<Boolean>` smacker can terminate on the `multipleResolves` event. This is not always [desireable](https://github.com/nodejs/node/issues/24321). It defaults to `true`, since that is [recommended behaviour](https://nodejs.org/api/process.html#process_event_multipleresolves).
 - `gracefulShutdownTimeout` `<Number>` smacker will terminate after configured milliseconds (triggered by signals or natually), with exit code 1, if configured. Defaults to `undefined`.
 - `gracefulStartupTimeout` `<Number>` smacker will terminate after configured milliseconds, with exit code 1, if configured and the `start`-function isn't resolved. Defaults to `undefined`.
-
+- `signalHandlers[signal]` custom signal handlers can be installed after the `start`-function has been resolved. This will overwrite the native behaviour of the signals. Valid signals are `SIGHUP`, `SIGPIPE`, `SIGUSR2`.
 
 ## Planned features
-
-- allow configuration `SIGUSR2` to be passed to the service for it to handle
 - detecting if `service.stop` actually leaves the event loop empty

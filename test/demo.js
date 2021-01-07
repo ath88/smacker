@@ -18,7 +18,7 @@ const Service = function constructor() {
       // provoke a multiple resolves, only supported after Node.js 10.12.0
       if (process.argv[3] === "multipleResolves") new Promise((res, rej) => [rej("resolve 1"), rej("resolve 2")]);
 
-      console.log("Started, logging every 100 milliseconds");
+      console.log(`[PID: ${process.pid}] Started, logging every 100 milliseconds`);
       state.interval = setInterval(() => console.log(new Date()), 100);
 
       await timeout(20);
@@ -36,6 +36,12 @@ const config = {
   gracefulShutdownTimeout: (process.argv[3] === "nonGracefulShutdown") ? 10 : null,
   gracefulStartupTimeout: (process.argv[3] === "nonGracefulStartup") ? 10 : null,
 };
+
+const customSignals = ["SIGHUP", "SIGPIPE", "SIGUSR2"];
+if (customSignals.includes(process.argv[3])) {
+  const signal = process.argv[3];
+  config.signalHandlers = { [signal]: () => console.log(`${signal} signal received.`) };
+}
 
 const service = new Service();
 smacker.start({ service, config })
