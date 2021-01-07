@@ -44,5 +44,5 @@ if (customSignals.includes(process.argv[3])) {
 }
 
 const service = new Service();
-smacker.start({ service, config })
+smacker.start(service, { config })
 if (process.argv[2] === "stop") smacker.stop();

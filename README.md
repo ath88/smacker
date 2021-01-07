@@ -22,7 +22,7 @@ smacker.start({ service });
 
 Check out the demo in `test/demo.js`.
 
-### smacker.start({ service[, config][, log] })
+### smacker.start(service, {[config][, log] })
 
 - `service` `<Object>` must have a `start` and `stop` function, both returning a `Promise`
 - `config` `<Object>` configuration object, contains config for smacker - see below
