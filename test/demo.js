@@ -8,8 +8,7 @@ const Service = function constructor() {
   if (process.argv[3] === "uncaughtException") setTimeout(() => { throw new Error("uncaught exception") }, 100);
 
   return {
-    start: async () => {
-
+    start: () => {
       // emit a warning
       if (process.argv[3] === "warn") process.emitWarning("This is a test warning");
 
