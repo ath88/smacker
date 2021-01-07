@@ -8,7 +8,7 @@ const Service = function constructor() {
   if (process.argv[3] === "uncaughtException") setTimeout(() => { throw new Error("uncaught exception") }, 100);
 
   return {
-    start: () => {
+    start: async () => {
       // emit a warning
       if (process.argv[3] === "warn") process.emitWarning("This is a test warning");
 
@@ -20,6 +20,8 @@ const Service = function constructor() {
 
       console.log("Started, logging every 100 milliseconds");
       state.interval = setInterval(() => console.log(new Date()), 100);
+
+      await timeout(20);
     },
     stop: async () => {
       clearInterval(state.interval);
@@ -32,6 +34,7 @@ const Service = function constructor() {
 
 const config = {
   gracefulShutdownTimeout: (process.argv[3] === "nonGracefulShutdown") ? 10 : null,
+  gracefulStartupTimeout: (process.argv[3] === "nonGracefulStartup") ? 10 : null,
 };
 
 const service = new Service();

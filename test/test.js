@@ -62,5 +62,24 @@ describe("smacker", () => {
     });
   });
 
+  it("terminates forcefully after waiting for startup", function() {
+    const proc = spawn("node", ["./test/demo.js", "run", "nonGracefulStartup"]);
+
+    let stderr = "";
+    proc.stderr.on('data', (data) => {
+      stderr += data.toString();
+    });
+
+    setTimeout(() => proc.kill('SIGINT'), 500); // wait for it to terminate, in case it doesnt terminate by itself
+
+    return new Promise((resolve, reject) => {
+      proc.once("close", (code, signal) => {
+        if (!stderr.includes("Waited too long for startup.")) return reject();
+        if (code === 0) return reject();
+        resolve();
+      });
+    });
+  });
+
   it("executes custom function on SIGHUP");
 });
