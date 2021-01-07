@@ -16,7 +16,8 @@
   "repository": "github:ath88/smacker",
   "main": "lib/smacker.js",
   "scripts": {
-    "test": "mocha test/test.js"
+    "test": "mocha test/test.js",
+    "tests": "mocha test/test.js --watch"
   },
   "author": "Asbjørn Dyhrberg Thegler <asbjoern@thegler.dk>",
   "dependencies": {},
