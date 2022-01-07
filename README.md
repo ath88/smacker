@@ -17,7 +17,7 @@ Don't smack your developers when a process misbehaves. It's hard to know everyth
 const smacker = require('smacker');
 const Service = require('lib/Service');
 const service = new Service();
-smacker.start({ service });
+smacker.start(service);
 ```
 
 Check out the demo in `test/demo.js`.
