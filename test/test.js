@@ -30,8 +30,14 @@ describe("smacker", () => {
       const proc = spawn("node", ["./test/demo.js", "run"]);
       setTimeout(() => proc.kill(signal), 50 * attempt); // wait for the process to setup signal handlers
 
+      let stdout = "";
+      proc.stdout.on('data', (data) => {
+        stdout += data.toString();
+      });
+
       return new Promise((resolve, reject) => {
         proc.once("exit", (code, signal) => {
+          if (stdout.match(new RegExp("Stopping", "g")).length !== 1) return reject("Logging 'Stopping' too many times");
           if (code === 0) return resolve();
           reject();
         });
